@@ -57,7 +57,7 @@ export default function Signin() {
             <Card className="border-slate-400 border-2">
               <CardHeader>
                 <CardTitle className="text-center text-3xl text-bold">
-                  SignUp
+                  SignIn
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-5">
