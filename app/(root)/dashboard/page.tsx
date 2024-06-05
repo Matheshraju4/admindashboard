@@ -6,7 +6,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="w-full p-4">
+    <div className="w-full md:p-4">
       <Dashboard />
       {/* <Card className="w-full h-full flex flex-row ">
         <Sidebar />

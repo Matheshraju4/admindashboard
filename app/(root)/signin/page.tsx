@@ -51,12 +51,12 @@ export default function Signin() {
   }
   return (
     <Form {...form}>
-      <div className="flex justify-center w-full items-center mt-20 md:mt-0 md:min-h-screen p-5">
+      <div className="flex justify-center w-full items-center mt-20  p-5">
         <div className="max-w-lg w-full ">
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-            <Card className="border-slate-400 border-2">
+            <Card className="bg-white rounded-xl">
               <CardHeader>
-                <CardTitle className="text-center text-3xl text-bold">
+                <CardTitle className="text-center text-4xl text-bold">
                   SignIn
                 </CardTitle>
               </CardHeader>
@@ -64,10 +64,16 @@ export default function Signin() {
                 <FormFields form={form} name="email" label="Email" />
                 <FormFields form={form} name="password" label="Password" />
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex justify-center flex-col">
                 <Button type="submit" className="w-full">
                   Submit
                 </Button>
+                <CardDescription className="text-center mt-3 text-md">
+                  Don't Have an Account?
+                  <a href="/signup" className=" pl-2  underline">
+                    Signup
+                  </a>
+                </CardDescription>
               </CardFooter>
             </Card>
           </form>

@@ -84,10 +84,16 @@ export default function ProfileForm() {
                   label="Confirm Password"
                 />
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex justify-center flex-col">
                 <Button type="submit" className="w-full">
                   Submit
                 </Button>
+                <CardDescription className="text-center mt-3 text-md">
+                  Already Have an Account?
+                  <a href="/signin" className=" pl-2  underline">
+                    Signin
+                  </a>
+                </CardDescription>
               </CardFooter>
             </Card>
           </form>

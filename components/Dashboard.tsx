@@ -12,6 +12,29 @@ const Dashboard = () => {
   const [isAccountsetting, setIsAccountsetting] = useState(false);
   const [isEditCourse, setIsEditCourse] = useState(false);
   const [isEditWebinar, setIsEditWebinar] = useState(false);
+  let content;
+  if (
+    isDashboard &&
+    isAccountsetting === false &&
+    isEditCourse === false &&
+    isEditWebinar === false
+  ) {
+    content = "Dashboard";
+  } else if (
+    isAccountsetting &&
+    isDashboard === false &&
+    isEditCourse === false &&
+    isEditWebinar === false
+  ) {
+    content = "Account Setting";
+  } else if (
+    isEditCourse &&
+    isDashboard === false &&
+    isAccountsetting === false &&
+    isEditWebinar === false
+  ) {
+    content = "Edit Course";
+  } else content = "Edit Webinar";
 
   return (
     <div>
@@ -36,7 +59,7 @@ const Dashboard = () => {
               htmlFor="select-1"
               className="flex w-full cursor-pointer select-none rounded-lg border p-2 px-3 text-sm text-gray-700 ring-blue-700 peer-checked:ring"
             >
-              Accounts
+              {content}
             </label>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,14 +76,49 @@ const Dashboard = () => {
               />
             </svg>
             <ul className="max-h-0 select-none flex-col overflow-hidden rounded-b-lg shadow-md transition-all duration-300 peer-checked:max-h-56 peer-checked:py-3">
-              <li className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
-                Accounts
+              <li
+                onClick={() => {
+                  setIsEditCourse(false);
+                  setIsEditWebinar(false);
+                  setIsAccountsetting(false);
+                  setIsDashboard(true);
+                }}
+                className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white"
+              >
+                Dashboard
               </li>
-              <li className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
-                Team
+              <li
+                onClick={() => {
+                  setIsDashboard(false);
+                  setIsEditCourse(false);
+                  setIsAccountsetting(false);
+                  setIsEditWebinar(true);
+                }}
+                className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white"
+              >
+                Edit webinar site
               </li>
-              <li className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">
-                Others
+              <li
+                onClick={() => {
+                  setIsDashboard(false);
+                  setIsEditCourse(false);
+                  setIsEditWebinar(false);
+                  setIsAccountsetting(true);
+                }}
+                className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white"
+              >
+                Edit Course
+              </li>
+              <li
+                onClick={() => {
+                  setIsDashboard(false);
+                  setIsEditCourse(false);
+                  setIsEditWebinar(false);
+                  setIsAccountsetting(true);
+                }}
+                className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white"
+              >
+                Account Setting
               </li>
             </ul>
           </div>

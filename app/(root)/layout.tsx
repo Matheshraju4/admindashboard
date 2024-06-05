@@ -19,10 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
         className={cn(
-          "min-h-screen bg-background font-mono antialiased bg-gradient-to-tr from-indigo-400 via-blue-50 to-blue-400",
+          "min-h-full bg-gradient-to-tr from-indigo-400 via-blue-50 to-blue-400 font-mono antialiased",
           fontSans.variable
         )}
       >
