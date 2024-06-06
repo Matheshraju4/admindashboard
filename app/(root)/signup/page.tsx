@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -24,6 +25,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { InputWithLabel } from "@/components/InputBox";
 import FormFields from "@/components/FormFields";
+import { signUpUser } from "@/lib/backend";
+import { useState } from "react";
+import { table } from "console";
+import LoadingComponent from "@/components/LoadingComponent";
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -43,7 +48,9 @@ const formSchema = z.object({
 });
 
 export default function ProfileForm() {
+  const [loading, setloading] = useState(false);
   // 1. Define your form.
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,7 +63,39 @@ export default function ProfileForm() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setloading(true);
+    if (values.confirmPassword === values.password) {
+      const { username, password, phone, email } = values;
+      const response = await signUpUser({
+        username,
+        phoneNumber: phone,
+        email,
+        password,
+      });
+      if (response.action === true) {
+        toast({
+          title: response.message,
+          description: "Friday, February 10, 2023 at 5:57 PM",
+        });
+        setloading(false);
+      } else if (
+        response.action === false &&
+        response.message === "Username Already Exist"
+      ) {
+        toast({
+          title: response.message,
+          description: "Create with unique username",
+        });
+        setloading(false);
+      }
+    } else {
+      toast({
+        title: "Both password and Confrim Password are not same",
+      });
+      setloading(false);
+    }
+
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -86,7 +125,7 @@ export default function ProfileForm() {
               </CardContent>
               <CardFooter className="flex justify-center flex-col">
                 <Button type="submit" className="w-full">
-                  Submit
+                  {loading ? <LoadingComponent /> : "Submit"}
                 </Button>
                 <CardDescription className="text-center mt-3 text-md">
                   Already Have an Account?

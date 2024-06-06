@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Client{
+  id Int @id @default(autoincrement())
+  username String @unique 
+  phoneNumber String
+  email String
+  password String
+  domainName String? @unique 
+  accountNumber String?
+  ifscCode String?
+  Address String?
+  webinarFunnel WebinarFunnel?
+}
+model WebinarFunnel{
+  id String @id @default(uuid())
+  heading String
+  subHeading String
+  description String
+workShopDate String
+videoUrl String
+buttonContent String
+cardSection String
+user String @unique
+clinetConnection Client @relation(fields: [user],references: [username])
+}

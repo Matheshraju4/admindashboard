@@ -24,6 +24,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { InputWithLabel } from "@/components/InputBox";
 import FormFields from "@/components/FormFields";
+import { useState } from "react";
+import { SignInUser } from "@/lib/backend";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import LoadingComponent from "@/components/LoadingComponent";
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email.",
@@ -34,6 +39,9 @@ const formSchema = z.object({
 });
 
 export default function Signin() {
+  const [loading, setloading] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,7 +52,18 @@ export default function Signin() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setloading(true);
+    const response = await SignInUser(values);
+    if (response.action === true) {
+      router.push("/dashboard");
+    } else if (response.action === false) {
+      toast({
+        title: response.message,
+        description: "Invalid User Credentials",
+      });
+      setloading(false);
+    }
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -66,7 +85,7 @@ export default function Signin() {
               </CardContent>
               <CardFooter className="flex justify-center flex-col">
                 <Button type="submit" className="w-full">
-                  Submit
+                  {loading ? <LoadingComponent /> : "Submit"}
                 </Button>
                 <CardDescription className="text-center mt-3 text-md">
                   Don't Have an Account?
